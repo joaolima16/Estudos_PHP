@@ -5,6 +5,7 @@ use App\Http\Controllers\contatoController;
 use App\Http\Controllers\PrincipalController;
 use App\Http\Controllers\sobreNosController;
 use App\Http\Controllers\TesteController;
+use App\Http\Controllers\FornecedorController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,6 +22,8 @@ Route::prefix(  "/app")->group(function () {
 Route::get("/teste/{p1}/{p2}", [TesteController::class, "teste"])->name("site.teste");
 
 Route::get("/clientes/login", [ClienteController::class, 'Login']);
+
+Route::get("/app/fornecedores", [FornecedorController::class, 'index'])->name("app.fornecedor.index");
 
 Route::fallback(function () {
     return response("Rota não encontrada", 404);
