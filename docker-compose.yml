@@ -1,16 +1,16 @@
 version: '3.8'
+
 services:
   postgres:
-    image: postgres:15
-    container_name: postgres-container
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: teste
-      POSTGRES_DB: laravel_db
+    image: bitnami/postgresql:14.15.0-debian-12-r5
     ports:
-      - 5432:5432
+      - '5432:5432'  
+    environment:
+      - POSTGRES_USER=docker  # Usuário do PostgreSQL
+      - POSTGRES_PASSWORD=docker  # Senha do PostgreSQL
+      - POSTGRES_DB=teste  # Nome do banco de dados a ser criado
     volumes:
-      - pgdata:/var/lib/postgresql/data
-  volumes:
-    pgdata:
-    
+      - teste_pg_data:/bitnami/postgresql  # Volume persistente para dados do PostgreSQL
+
+volumes:
+  teste_pg_data:  # Definição do volume para persistir dados
