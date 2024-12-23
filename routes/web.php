@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\contatoController;
+use App\Http\Controllers\api\FornecedorApiController;
 use App\Http\Controllers\PrincipalController;
 use App\Http\Controllers\sobreNosController;
 use App\Http\Controllers\TesteController;
@@ -10,13 +11,18 @@ use Illuminate\Support\Facades\Route;
 
 
 
+Route::prefix('/api')->group(function () {
+    Route::prefix('/fornecedor')->group(function(){
+        route::get('/',[FornecedorApiController::class, 'getFornecedores']);
+        route::post('/', [FornecedorApiController::class, 'create']);
+    });
+});
+Route::get("/sobrenos", [sobreNosController::class, 'sobreNos'])->name('site.sobre-nos');
 
-Route::get("/sobrenos", [sobreNosController:: class, 'sobreNos'])->name('site.sobre-nos');
+Route::get('/contato', [contatoController::class, 'contato'])->name('site.contato');
 
-Route::get('/contato',[contatoController::class, 'contato'])->name('site.contato');
-
-Route::get("/", [PrincipalController:: class, 'principal'])->name('site.principal');
-Route::prefix(  "/app")->group(function () {
+Route::get("/", [PrincipalController::class, 'principal'])->name('site.principal');
+Route::prefix("/app")->group(function () {
 });
 
 Route::get("/teste/{p1}/{p2}", [TesteController::class, "teste"])->name("site.teste");
