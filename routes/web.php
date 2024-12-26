@@ -11,12 +11,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::prefix('/api')->group(function () {
-    Route::prefix('/fornecedor')->group(function(){
-        route::get('/',[FornecedorApiController::class, 'getFornecedores']);
-        route::post('/', [FornecedorApiController::class, 'create']);
-    });
-});
 Route::get("/sobrenos", [sobreNosController::class, 'sobreNos'])->name('site.sobre-nos');
 
 Route::get('/contato', [contatoController::class, 'contato'])->name('site.contato');
