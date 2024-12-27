@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Http\Requests\FornecedorRequest;
+use App\Http\Requests\TesteRequest;
 use App\Models\Fornecedor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,11 +15,12 @@ class FornecedorApiController extends Controller
         $fornecedores = Fornecedor::all();
         return $fornecedores;
     }
-    public function create(Request $request)
-    {
+    public function createFornecedor(TesteRequest $request)
+ {
 
         try {
-            $result = Fornecedor::create($request->all());
+            $data = $request->validated();
+            $result = Fornecedor::create($data);
             return $result;
         } catch (\Exception) {
             return response()->json(['error' => 'Erro ao criar fornecedor'], 500);
@@ -69,5 +72,29 @@ class FornecedorApiController extends Controller
             ];
             return $response;
         }
+    }
+    public function deleteFornecedor($id){
+        $response = [];
+        try{
+            $fornecedor = Fornecedor::find($id);
+            if($fornecedor) {
+                $fornecedor->delete();
+                $response = [
+                    'status' => true,
+                    'msg' => 'Fornecedor deletado'
+                ] ;
+                return $response;
+            }
+            else{
+                throw new \Exception("Fornecedor não encontrado");
+            }
+        }
+        catch(\Exception $ex){
+            $response = [
+                'status' => false,
+                'msg' => $ex->getMessage()
+            ];
+        }
+        return $response;
     }
 }

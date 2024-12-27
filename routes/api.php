@@ -11,6 +11,7 @@ Route::get('/user', function (Request $request) {
 Route::prefix('/fornecedor')->group(function () {
     route::get('/', [FornecedorApiController::class, 'getFornecedores']);
     route::get('/{id}', [FornecedorApiController::class, 'getFornecedor']);
-    route::post('/', [FornecedorApiController::class, 'create']);
+    route::post('/', [FornecedorApiController::class, 'createFornecedor']);
     route::put('/{id}', [FornecedorApiController::class, 'updateFornecedor']);
+    route::delete('/{id}', [FornecedorApiController::class,'deleteFornecedor']);
 });
