@@ -1,16 +1,37 @@
 version: '3.8'
 
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/app
+      - ./storage:/var/www/app/storage
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_CONNECTION=pgsql
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=teste
+      - DB_USERNAME=docker
+      - DB_PASSWORD=docker
+    depends_on:
+      - postgres
+
   postgres:
     image: bitnami/postgresql:14.15.0-debian-12-r5
     ports:
-      - '5432:5432'  
+      - '5432:5432'
     environment:
-      - POSTGRES_USER=docker  # Usuário do PostgreSQL
-      - POSTGRES_PASSWORD=docker  # Senha do PostgreSQL
-      - POSTGRES_DB=teste  # Nome do banco de dados a ser criado
+      - POSTGRES_USER=docker # Usuário do PostgreSQL
+      - POSTGRES_PASSWORD=docker # Senha do PostgreSQL
+      - POSTGRES_DB=teste # Nome do banco de dados a ser criado
     volumes:
-      - teste_pg_data:/bitnami/postgresql  # Volume persistente para dados do PostgreSQL
+      - postgres_data:/bitnami/postgresql # Volume persistente para dados do PostgreSQL
 
 volumes:
-  teste_pg_data:  # Definição do volume para persistir dados
+  postgres_data: # Definição do volume para persistir dados

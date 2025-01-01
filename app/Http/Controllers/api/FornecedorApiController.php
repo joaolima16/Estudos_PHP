@@ -16,7 +16,7 @@ class FornecedorApiController extends Controller
         return $fornecedores;
     }
     public function createFornecedor(TesteRequest $request)
- {
+    {
 
         try {
             $data = $request->validated();
@@ -33,7 +33,7 @@ class FornecedorApiController extends Controller
             $fornecedor = Fornecedor::find($id);
             if ($fornecedor) {
                 $response = [
-                    'status' => true,
+                    'success' => true,
                     'msg' => 'fornecedor encontrado',
                     'data' => $fornecedor
                 ];
@@ -73,28 +73,26 @@ class FornecedorApiController extends Controller
             return $response;
         }
     }
-    public function deleteFornecedor($id){
-        $response = [];
-        try{
+    public function deleteFornecedor($id)
+    {
+        try {
             $fornecedor = Fornecedor::find($id);
-            if($fornecedor) {
-                $fornecedor->delete();
-                $response = [
-                    'status' => true,
-                    'msg' => 'Fornecedor deletado'
-                ] ;
-                return $response;
-            }
-            else{
+
+            if (!$fornecedor) {
                 throw new \Exception("Fornecedor não encontrado");
             }
-        }
-        catch(\Exception $ex){
-            $response = [
+
+            $fornecedor->delete();
+
+            return response()->json([
+                'status' => true,
+                'msg' => 'Fornecedor deletado'
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json([
                 'status' => false,
                 'msg' => $ex->getMessage()
-            ];
+            ], 400);
         }
-        return $response;
     }
 }
